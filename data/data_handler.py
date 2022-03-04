@@ -1,6 +1,4 @@
-import yfinance_data as yfd
-
-
+import data.yfinance_data as yfd
 
 class FinData:
     pass
