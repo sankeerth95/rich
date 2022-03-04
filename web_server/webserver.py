@@ -1,30 +1,32 @@
-import io
-from flask import Flask, Response
-from matplotlib.figure import Figure
-from matplotlib.backends.backend_agg import FigureCanvasAgg
-from data.symbs import faang, equity_listing_reuters_ric
+import io, os
+from lib2to3.pgen2.literals import simple_escapes
+from flask import Flask
 
-from visualize.chart_utils import fill_axes
-
-
-def create_figure():
-    fig = Figure()
-    axis = fig.add_subplot(1,1,1)
-    symbs = [ equity_listing_reuters_ric[symb] for symb in faang ]
-    fill_axes(axis, symbs, '2021-01-01', '2022-03-02')
-    return fig
+from visualize.chart_utils import sample_chart
+from flask import Response
+from flask import render_template
 
 
-app = Flask('screener')
 
-@app.route('/')
-def hello():
-    fig = create_figure()
-    output = io.BytesIO()
-    FigureCanvasAgg(fig).print_png(output)
-    return Response(output.getvalue(), mimetype='image/png')
+def create_app(test_config=None):
+    # create and configure the app
+    app = Flask('web_server', instance_relative_config=True)
 
+
+    @app.route('/plot.png')
+    def plot_png():
+        return Response(sample_chart(), mimetype='image/png')
+
+
+    # a simple page that says hello
+    @app.route('/')
+    def hello():
+        return render_template('base.html')
+
+
+
+    return app
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=8000, debug=True)
+    create_app.run(host='localhost', port=8000, debug=True)
 
