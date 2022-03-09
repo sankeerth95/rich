@@ -1,11 +1,37 @@
-<title>{% block title %}{% endblock %} - HW</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<nav>
-  <h1>RICH</h1>
-</nav>
-<section class="content">
+<html>
 
-    <img src="/plot.png", alt="my plot"  />
 
-</section>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='base.js') }}"></script>
+    
+    <title>{% block title %}{% endblock %} - RICH</title>
+</head>
 
+
+<body>
+
+  <nav>
+    <h1>RICH</h1>
+  </nav>
+
+  <button class="openbtn" onclick="openNav()">&#9776; Toggle Sidepanel</button>
+  <div id="mySidepanel" class="sidepanel">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#", id="graph_screener", class="base_button_handler">Graph Screener</a>
+    <a href="#", id="pnl_estimator", class="base_button_handler">PnL Estimator</a>
+    <a href="#", id="portfolio", class="base_button_handler">PortFolio</a>
+    <a href="#", id="pnl_simulator", class="base_button_handler">PnL Simluator</a>
+
+  </div>
+  
+
+  <div id="response"> </div>
+
+</body>
+
+
+
+
+</html>

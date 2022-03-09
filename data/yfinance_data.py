@@ -14,17 +14,3 @@ def get_timed_tickers(start_time, end_time, symbols,\
     return plot_struct
 
 
-
-if __name__ == '__main__':
-    symbs = [
-    'msft',
-    'aapl',
-    'goog',
-    'amzn',
-    ]
-    fig, axes = plt.subplots(2, 1)
-    fill_axes(axes[0], symbs, '2020-01-01', '2021-01-01')
-    fill_axes(axes[1], symbs, '2020-01-01', '2021-01-01')
-
-    plt.show()
-

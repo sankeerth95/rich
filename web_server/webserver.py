@@ -1,5 +1,4 @@
-import io, os
-from lib2to3.pgen2.literals import simple_escapes
+import flask
 from flask import Flask
 
 from visualize.chart_utils import sample_chart
@@ -11,6 +10,26 @@ from flask import render_template
 def create_app(test_config=None):
     # create and configure the app
     app = Flask('web_server', instance_relative_config=True)
+
+
+    @app.route('/graphs_control', methods=["POST"])
+    def graphs_control():
+        datajson = flask.request.json
+        print(datajson)
+        return "adg"
+
+
+    @app.route('/button_handler_base')
+    def button_handler_base():
+ 
+        aid = flask.request.args.get('button_id')
+        if aid == "graph_screener":
+            return render_template('panel/graph_screen.html')
+        else:
+            return "UNIMPLEMENTED REQUEST"
+
+
+
 
 
     @app.route('/plot.png')

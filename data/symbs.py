@@ -12,12 +12,13 @@ equity_listing_reuters_ric = {
 commodity_ric = {
     'gold'      : 'gold',
     'silver'    : 'silver',
-    'diesel'    : 'brent' 
+    'diesel'    : 'clz' 
 }
 
-# fx
+# fx : TO BE IMPLEMENTED
 
 
+# groups:
 faang = [
     'facebook',
     'amazon',

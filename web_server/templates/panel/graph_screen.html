@@ -1,0 +1,16 @@
+
+<div>
+    RIC: <input type="text" id="ric" />
+    start date: <input type="date" id="start_date" />
+    end date: <input type="date" id="end_date" />
+    <button id="draw_graph" type="button"> draw graph </button>
+</div>
+
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+
+<script src="{{ url_for('static', filename ='panel/chart.min.js') }}" > </script>
+<script src="{{ url_for('static', filename ='panel/graph_screen.js') }}"> </script>
+
+
