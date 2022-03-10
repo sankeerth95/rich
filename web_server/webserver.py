@@ -3,8 +3,11 @@ from flask import Flask
 
 from visualize.chart_utils import sample_chart
 from flask import Response
-from flask import render_template
+from flask import render_template, jsonify
 
+from datetime import datetime
+
+from data.yfinance_data import get_timed_tickers, get_series_data_high
 
 
 def create_app(test_config=None):
@@ -15,8 +18,22 @@ def create_app(test_config=None):
     @app.route('/graphs_control', methods=["POST"])
     def graphs_control():
         datajson = flask.request.json
-        print(datajson)
-        return "adg"
+
+        if datajson['button_id'] == 'draw_graph':
+            ric = datajson['RIC']
+            start_date = datetime.strptime(datajson['start_date'], "%Y-%m-%d")
+            end_date = datetime.strptime(datajson['end_date'], "%Y-%m-%d")
+            interval = datajson['interval']
+
+            symbols = [ ric ]
+            print(start_date, end_date, ric)
+            ps = get_timed_tickers(start_date, end_date, symbols, interval=interval)
+            series = get_series_data_high(ps)[0]
+            xvals = [ datetime.strftime(dt, '%Y-%m-%d') for dt in series.index ]
+            yvals = series.values.tolist()
+            return jsonify({'x': xvals, 'y': yvals})
+        else:
+            return ''
 
 
     @app.route('/button_handler_base')

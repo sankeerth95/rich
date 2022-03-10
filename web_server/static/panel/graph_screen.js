@@ -8,7 +8,7 @@ var labels1 = [
     'June',
 ];
 
-var data1 = {
+var data = {
     labels: labels1,
     datasets: [{
       label: 'My First dataset',
@@ -18,28 +18,31 @@ var data1 = {
     }]
 };
 
-var config1 = {
+var config = {
     type: 'line',
-    data: data1,
+    data: data,
     options: {}
 };
 
 
 $("#draw_graph").click(function(event){
     
-    var ric = 'a'
-    var sd = 'a'
-    var ed = 'a' //$('#end_date').data
-    var interval = 'a'
+    var ric = $('#ric').val()
+    var sd = $('#start_date').val()
+    var ed = $('#end_date').val()
+    var interval = $('#interval').val()
+
     $.ajax(
         {
             url: "/graphs_control",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({button_id: "draw_graph", RIC: ric, start_date: sd, end_date: ed, interval_id: interval}),
+            data: JSON.stringify({button_id: "draw_graph", RIC: ric, start_date: sd, end_date: ed, interval: interval}),
             success: function(response_data){ 
-                // data.datasets.data = response_data
-                const myChart = new Chart( document.getElementById("myChart"), config1);
+                alert(response_data)
+                data.datasets.data = response_data.y
+                data.labels = response_data.x
+                const myChart = new Chart( document.getElementById("myChart"), config);
             },
             error: function(err) { alert(err.statusText);console.log(err.responseText); }
         }

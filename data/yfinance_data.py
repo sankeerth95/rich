@@ -1,7 +1,8 @@
 import yfinance as yf
 import matplotlib.pyplot as plt
+from datetime import datetime
 
-def get_timed_tickers(start_time, end_time, symbols,\
+def get_timed_tickers(start_time: datetime, end_time: datetime, symbols,\
      interval='1d'):
     plot_struct = {}
     for symb in symbols:
@@ -13,4 +14,26 @@ def get_timed_tickers(start_time, end_time, symbols,\
         plot_struct[symb] = x
     return plot_struct
 
+def get_series_data_high(plot_struct):
+    l = []
+    for k,v in plot_struct.items():
+        l.append( v['series']['High'] )
 
+    return l
+
+def get_series_data_low(plot_struct):
+    l = []
+    for k,v in plot_struct.items():
+        l.append( v['series']['Low'] )
+
+    return l
+
+
+
+if __name__ == '__main__':
+
+    sd = datetime.strptime('2021-01-01', '%Y-%m-%d')
+    ed = datetime.strptime('2022-01-01', '%Y-%m-%d')
+    ps = get_timed_tickers(sd, ed, ['msft'])
+    x = get_series_data_high(ps)
+    print(x)
