@@ -3,6 +3,7 @@ from flask import Flask
 from visualize.chart_utils import sample_chart
 from flask import Response
 from flask import render_template, jsonify
+from flask.helpers import get_root_path
 
 from dash import Dash
 import dash_html_components as html
@@ -62,6 +63,21 @@ def create_dataframe():
     df.replace(to_remove, np.nan, inplace=True)
     return df
 
+
+def create_data_table(df):
+    """Create Dash datatable from Pandas DataFrame."""
+    table = dash_table.DataTable(
+        id="database-table",
+        columns=[{"name": i, "id": i} for i in df.columns],
+        data=df.to_dict("records"),
+        sort_action="native",
+        sort_mode="native",
+        page_size=300,
+    )
+    return table
+
+
+
 def init_dashboard(server):
     """Create a Plotly Dash dashboard."""
     dash_app = Dash(
@@ -106,19 +122,6 @@ def init_dashboard(server):
         id="dash-container",
     )
     return dash_app.server
-
-
-def create_data_table(df):
-    """Create Dash datatable from Pandas DataFrame."""
-    table = dash_table.DataTable(
-        id="database-table",
-        columns=[{"name": i, "id": i} for i in df.columns],
-        data=df.to_dict("records"),
-        sort_action="native",
-        sort_mode="native",
-        page_size=300,
-    )
-    return table
 
 
 
@@ -166,9 +169,44 @@ def create_app(test_config=None):
 
 
     app = init_dashboard(app)
-
-
     return app
+
+
+
+
+
+
+
+def register_dashapps(app):
+    from dashutils.layout import layout
+    from dashutils.callbacks import register_callbacks
+
+    # Meta tags for viewport responsiveness
+    meta_viewport = {
+        "name": "viewport",
+        "content": "width=device-width, initial-scale=1, shrink-to-fit=no"}
+
+    dashapp = Dash(__name__,
+                    server=app,
+                    url_base_pathname='/dashboard/',
+                    assets_folder=get_root_path(__name__) + '/dashboard/assets/',
+                    meta_tags=[meta_viewport])
+
+    with app.app_context():
+        dashapp.title = 'Dashapp'
+        dashapp.layout = layout
+        register_callbacks(dashapp)
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     create_app.run(host='localhost', port=8000, debug=True)
