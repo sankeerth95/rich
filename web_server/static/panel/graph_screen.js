@@ -1,4 +1,82 @@
 
+
+
+
+window.onload = function () {
+  var dataPoints1 = [], dataPoints2 = [];
+  var stockChart = new CanvasJS.StockChart("chartContainer",{
+    exportEnabled: true,
+    title:{
+      text:"StockChart with Annotation"
+    },
+    subtitles: [{
+      text: "Litecoin Price"
+    }],
+    charts: [{
+      axisX: {
+        crosshair: {
+          enabled: true,
+          snapToDataPoint: true
+        }
+      },
+      axisY: {
+        prefix: "$",
+        lineThickness: 0
+      },
+      data: [{
+        name: "Price (in USD)",
+        yValueFormatString: "$#,###.##",
+        type: "candlestick",
+        dataPoints : dataPoints1
+      }]
+    }],
+    navigator: {
+      data: [{
+        dataPoints: dataPoints2
+      }],
+      slider: {
+        minimum: new Date(2018, 10, 01),
+        maximum: new Date(2018, 11, 20)
+      }
+    }
+  });
+  $.getJSON("https://canvasjs.com/data/docs/ltceur2018.json", function(data) {
+    var lowestCloseDate = data[0].date, lowestClosingPrice = data[0].close;
+    for(var i = 0; i < data.length; i++) {
+      if(data[i].close < lowestClosingPrice) {
+        lowestClosingPrice = data[i].close;
+        lowestCloseDate = data[i].date;
+      }
+    }
+    for(var i = 0; i < data.length; i++){
+      dataPoints1.push({x: new Date(data[i].date), y: [Number(data[i].open), Number(data[i].high), Number(data[i].low), Number(data[i].close)]});
+      dataPoints2.push({x: new Date(data[i].date), y: Number(data[i].close)});
+      if(data[i].date === lowestCloseDate){
+        dataPoints1[i].indexLabel = "Lowest Closing";
+        dataPoints1[i].indexLabelFontColor = "red";
+        dataPoints1[i].indexLabelOrientation = "vertical"
+      }
+    }
+    stockChart.render();
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var labels1 = [
     'January',
     'February',

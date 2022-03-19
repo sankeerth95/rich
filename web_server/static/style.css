@@ -136,7 +136,7 @@ min-width: 10em;
 
 .sidepanel {
     height: 250px; /* Specify a height */
-    width: 0; /* 0 width - change this with JavaScript */
+    width: 250px; /* 0 width - change this with JavaScript */
     /* position: fixed; Stay in place */
     z-index: 1; /* Stay on top */
     top: 0;
@@ -144,7 +144,7 @@ min-width: 10em;
     background-color: #111; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 0px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidepanel */
+    transition: 0.0s; /* 0.5 second transition effect to slide in the sidepanel */
 }
 
 
@@ -154,7 +154,7 @@ min-width: 10em;
     font-size: 25px;
     color: #818181;
     display: block;
-    transition: 0.3s;
+    transition: 0.0s;
 }
 
 /* Position and style the close button (top right corner) */
