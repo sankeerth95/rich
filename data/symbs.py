@@ -27,3 +27,22 @@ faang = [
     'google'
 ]
 
+indices = dict(
+
+    nasdaq = dict(
+        sp500="",
+        dowJ=""
+    ),
+
+    indian_indices = dict(
+        sensex="bsesensex",
+        nifty50="nifty"
+    ),
+
+    # mortgage market
+    # FRED platform indices 
+    obbmi = dict(
+
+    )
+)
+
